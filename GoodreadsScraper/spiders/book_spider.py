@@ -24,7 +24,6 @@ class BookSpider(scrapy.Spider):
     def parse(self, response, loader=None):
         if not loader:
             loader = BookLoader(BookItem(), response=response)
-
         loader.add_value('url', response.request.url)
 
         # The new Goodreads page sends JSON in a script tag
@@ -53,6 +52,8 @@ class BookSpider(scrapy.Spider):
 
         loader.add_css('language', 'script#__NEXT_DATA__::text')
         loader.add_css("awards", 'script#__NEXT_DATA__::text')
+        loader.add_value('series_url',response.css('h3.Text.Text__title3.Text__italic.Text__regular.Text__subdued a::attr(href)').extract_first())
+        #loader.add_value('series_url',response.css('h3.Text.Text__title3.Text__italic.Text__regular.Text__subdued a::attr(href)').extract_first()
 
         yield loader.load_item()
 

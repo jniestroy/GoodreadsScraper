@@ -141,6 +141,7 @@ class BookItem(scrapy.Item):
     publisher = Field(input_processor=MapCompose(json_field_extractor_v2('props.pageProps.apolloState.Book*.details.publisher')))
     publishDate = Field(input_processor=MapCompose(json_field_extractor_v2('props.pageProps.apolloState.Book*.details.publicationTime')))
     series = Field(input_processor=MapCompose(json_field_extractor_v2('props.pageProps.apolloState.Series*.title')), output_processor=Compose(set, list))
+    series_url = Field()
 
     author = Field(input_processor=MapCompose(json_field_extractor_v2('props.pageProps.apolloState.Contributor*.name')), output_processor=Compose(set, list))
 
